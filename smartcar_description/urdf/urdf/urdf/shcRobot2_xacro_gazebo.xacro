@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find smartcar_description)/urdf/shcRobot2_base_gazebo.xacro"/>
+    <robot_base/>
+</robot>
+

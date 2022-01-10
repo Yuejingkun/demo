@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<robot name="smartcar" xmlns:xacro="http://ros.org/wiki/xacro">
+  <property name="M_PI" value="3.14159"/>
+
+  <!-- Macro for SmartCar body. Including Gazebo extensions, but does not include Kinect -->
+  <include filename="$(find smartcar_description)/urdf/gazebo.urdf.xacro"/>
+
+  <property name="base_x" value="0.33" />
+  <property name="base_y" value="0.33" />
+  <property name="wheel_radius" value="0.025" />
+
+
+  <xacro:macro name="smartcar_body">
+
+
+	<link name="base_link">
+	<inertial>
+      <origin xyz="0 0 0.055"/>
+      <mass value="100.0" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.25 .16 .05"/>
+      </geometry>
+	  <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <material name="blue">
+	  <color rgba="0 0 .8 1"/>
+      </material>
+   </visual>
+   <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <geometry>
+        <box size="0.25 .16 .05" />
+      </geometry>
+    </collision>
+  </link>
+
+
+ <link name="left_front_wheel">
+	<inertial>
+      <origin  xyz="0.08 0.08 0.025"/>
+      <mass value="1" />
+       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length=".02" radius="0.025"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57075 1.57075" xyz="0.08 0.08 0.025"/>
+      <geometry>
+         <cylinder length=".02" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_front_wheel_joint" type="continuous">
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="left_front_wheel"/>
+    <origin rpy="0 1.57075 1.57075" xyz="0.08 0.08 0.025"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+    <gazebo reference="left_front_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
+            <transmission name="left_front_wheel_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="left_front_wheel_joint" >
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="left_front_wheel_joint_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+  <link name="right_front_wheel">
+	<inertial>
+      <origin xyz="0.08 -0.08 0.025"/>
+      <mass value="1" />
+       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length=".02" radius="0.025"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57075 1.57075" xyz="0.08 -0.08 0.025"/>
+      <geometry>
+         <cylinder length=".02" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_front_wheel_joint" type="continuous">
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="right_front_wheel"/>
+    <origin rpy="0 1.57075 1.57075" xyz="0.08 -0.08 0.025"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+ </joint>
+
+    <gazebo reference="right_front_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
+            <transmission name="right_front_wheel_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="right_front_wheel_joint" >
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="right_front_wheel_joint_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+ <link name="left_back_wheel">
+    <inertial>
+      <origin xyz="-0.08 0.08 0.025"/>
+      <mass value="1" />
+       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length=".02" radius="0.025"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+   </visual>
+   <collision>
+       <origin rpy="0 1.57075 1.57075" xyz="-0.08 0.08 0.025"/>
+      <geometry>
+         <cylinder length=".02" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_back_wheel_joint" type="continuous">
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="left_back_wheel"/>
+    <origin rpy="0 1.57075 1.57075" xyz="-0.08 0.08 0.025"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+    <gazebo reference="left_back_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
+            <transmission name="left_back_wheel_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="left_back_wheel_joint" >
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="left_back_wheel_joint_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+  <link name="right_back_wheel">
+	<inertial>
+       <origin xyz="-0.08 -0.08 0.025"/>
+       <mass value="1" />
+       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length=".02" radius="0.025"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+   </visual>
+   <collision>
+      <origin rpy="0 1.57075 1.57075" xyz="-0.08 -0.08 0.025"/>
+      <geometry>
+         <cylinder length=".02" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_back_wheel_joint" type="continuous">
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="right_back_wheel"/>
+    <origin rpy="0 1.57075 1.57075" xyz="-0.08 -0.08 0.025"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+    <gazebo reference="right_back_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
+            <transmission name="right_back_wheel_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="right_back_wheel_joint" >
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="right_back_wheel_joint_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+  <link name="head">
+	<inertial>
+      <origin xyz="0.08 0 0.08"/>
+      <mass value="1" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size=".02 .03 .03"/>
+      </geometry>
+	  <material name="white">
+		<color rgba="1 1 1 1"/>
+	  </material>
+     </visual>
+     <collision>
+      <origin xyz="0.08 0 0.08"/>
+      <geometry>
+         <cylinder length=".02" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="tobox" type="fixed">
+    <parent link="base_link"/>
+    <child link="head"/>
+    <origin xyz="0.08 0 0.08"/>
+  </joint>
+
+       <gazebo>
+            <plugin name="differential_drive_controller" 
+                    filename="libgazebo_ros_diff_drive.so">
+                <rosDebugLevel>Debug</rosDebugLevel>
+                <publishWheelTF>true</publishWheelTF>
+                <robotNamespace>/</robotNamespace>
+                <publishTf>1</publishTf>
+                <publishWheelJointState>true</publishWheelJointState>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>100.0</updateRate>
+                <legacyMode>true</legacyMode>
+                <leftJoint>left_rear_wheel_joint</leftJoint>
+                <rightJoint>right_rear_wheel_joint</rightJoint>
+                <wheelSeparation>0.8</wheelSeparation>
+                <wheelDiameter>${2*wheel_radius}</wheelDiameter>
+                <broadcastTF>1</broadcastTF>
+                <wheelTorque>80</wheelTorque>
+                <wheelAcceleration>3</wheelAcceleration>
+                <commandTopic>cmd_vel</commandTopic>
+                <odometryFrame>odom</odometryFrame> 
+                <odometryTopic>odom</odometryTopic> 
+                <robotBaseFrame>base_link</robotBaseFrame>
+            </plugin>
+        </gazebo> 
+  </xacro:macro>
+
+</robot>
+
